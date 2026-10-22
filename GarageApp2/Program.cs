@@ -64,7 +64,7 @@ static void HandleRemoveVehicle(IGarage garage)
                 Console.Clear();
 
                 WriteGarageAppWelcomeInfo();
-                ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+                ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
                 Console.WriteLine();
 
@@ -83,7 +83,7 @@ static void HandleRemoveVehicle(IGarage garage)
                 Console.Clear();
 
                 WriteGarageAppWelcomeInfo();
-                ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+                ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
                 Console.WriteLine();
 
@@ -156,7 +156,7 @@ static void HandleListVehicles(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -174,7 +174,7 @@ static void HandleListVehicles(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -209,7 +209,7 @@ static void HandleListVehicleTypes(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -227,7 +227,7 @@ static void HandleListVehicleTypes(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -284,7 +284,7 @@ static void ReadMainMenuSelection(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -346,7 +346,7 @@ static void ReadAddVehicleMenuSelection(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -417,7 +417,7 @@ static void ReadFindVehiclesMenuSelection(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -537,7 +537,7 @@ static void AddVehicle(IGarage garage, VehicleType vehicleType)
                 Console.Clear();
 
                 WriteGarageAppWelcomeInfo();
-                ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+                ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
                 Console.WriteLine();
 
@@ -557,7 +557,7 @@ static void AddVehicle(IGarage garage, VehicleType vehicleType)
                 Console.Clear();
 
                 WriteGarageAppWelcomeInfo();
-                ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+                ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
                 Console.WriteLine();
 
@@ -687,7 +687,7 @@ static void FindVehiclesByNumberOfSeats(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -708,7 +708,7 @@ static void FindVehiclesByNumberOfSeats(IGarage garage)
                 Console.Clear();
 
                 WriteGarageAppWelcomeInfo();
-                ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+                ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
                 Console.WriteLine();
 
@@ -722,9 +722,9 @@ static void FindVehiclesByNumberOfSeats(IGarage garage)
 
                 Console.WriteLine();
 
-                if (foundVehicles.Length > 0)
+                if (foundVehicles.Count > 0)
                 {
-                    ConsoleHelper.WriteInfoLine($"Found {foundVehicles.Length}" + (foundVehicles.Length == 1 ? " vehicle" : " vehicles") + $" with number of seats '{numberOfSeats}'.");
+                    ConsoleHelper.WriteInfoLine($"Found {foundVehicles.Count}" + (foundVehicles.Count == 1 ? " vehicle" : " vehicles") + $" with number of seats '{numberOfSeats}'.");
                     Console.WriteLine();
 
                     foreach (var foundVehicle in foundVehicles)
@@ -768,7 +768,7 @@ static void FindVehicleByRegistrationNumber(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -789,7 +789,7 @@ static void FindVehicleByRegistrationNumber(IGarage garage)
                 Console.Clear();
 
                 WriteGarageAppWelcomeInfo();
-                ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+                ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
                 Console.WriteLine();
 
@@ -844,7 +844,7 @@ static void FindVehiclesByVehicleType(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -865,7 +865,7 @@ static void FindVehiclesByVehicleType(IGarage garage)
                 Console.Clear();
 
                 WriteGarageAppWelcomeInfo();
-                ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+                ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
                 Console.WriteLine();
 
@@ -879,9 +879,9 @@ static void FindVehiclesByVehicleType(IGarage garage)
 
                 Console.WriteLine();
 
-                if (foundVehicles.Length > 0)
+                if (foundVehicles.Count > 0)
                 {
-                    ConsoleHelper.WriteInfoLine($"Found {foundVehicles.Length}" + (foundVehicles.Length == 1 ? " vehicle" : " vehicles") + $" with vehicle type '{vehicleType}'.");
+                    ConsoleHelper.WriteInfoLine($"Found {foundVehicles.Count}" + (foundVehicles.Count == 1 ? " vehicle" : " vehicles") + $" with vehicle type '{vehicleType}'.");
                     Console.WriteLine();
 
                     foreach (var foundVehicle in foundVehicles)
@@ -925,7 +925,7 @@ static void FindVehiclesByVehicleTypeAndFuelType(IGarage garage)
             Console.Clear();
 
             WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+            ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
             Console.WriteLine();
 
@@ -946,7 +946,7 @@ static void FindVehiclesByVehicleTypeAndFuelType(IGarage garage)
                 Console.Clear();
 
                 WriteGarageAppWelcomeInfo();
-                ConsoleHelper.WriteInfoLine(garage.GetStatusInfoString());
+                ConsoleHelper.WriteInfoLine(garage.GetStatusString());
 
                 Console.WriteLine();
 
@@ -961,9 +961,9 @@ static void FindVehiclesByVehicleTypeAndFuelType(IGarage garage)
 
                 Console.WriteLine();
 
-                if (foundVehicles.Length > 0)
+                if (foundVehicles.Count > 0)
                 {
-                    ConsoleHelper.WriteInfoLine($"Found {foundVehicles.Length}" + (foundVehicles.Length == 1 ? " vehicle" : " vehicles") + $" with vehicle type '{vehicleType}' and fuel type '{fuelType}'.");
+                    ConsoleHelper.WriteInfoLine($"Found {foundVehicles.Count}" + (foundVehicles.Count == 1 ? " vehicle" : " vehicles") + $" with vehicle type '{vehicleType}' and fuel type '{fuelType}'.");
                     Console.WriteLine();
 
                     foreach (var foundVehicle in foundVehicles)
@@ -1000,9 +1000,9 @@ static void FindVehiclesByVehicleTypeAndFuelType(IGarage garage)
 
 static void WriteGarageAppWelcomeInfo()
 {
-    Console.WriteLine(" ▄██████ ██████▄  ██████▄  ██████▄   ▄██████  ▄██████      ██████▄  ██████▄  ██████▄ \r\n▒▒▒  ▀▀▀ ▄▄▄  ▒▒▒ ▄▄▄  ▒▒▀ ▄▄▄  ▒▒▒ ▒▒▒  ▀▀▀ ▒▒▒  ▀▀▀      ▄▄▄  ▒▒▒ ▄▄▄  ▒▒▒ ▄▄▄  ▒▒▒\r\n███  ▄▄▄ ████████ ██████▄  ████████ ███ ████ █████▀        ████████ ██████▀  ██████▀ \r\n▒▒▒  ▒▒▒ ▒▒▒  ▒▒▒ ▒▒▒  ▒▒▒ ▒▒▒  ▒▒▒ ▒▒▒  ▒▒▒ ▒▒▒  ▄▄▄      ▒▒▒  ▒▒▒ ▒▒▒      ▒▒▒     \r\n ▀██████ ███  ███ ███  ███ ███  ███  ▀██████  ▀██████      ███  ███ ███      ███     ");
+    Console.WriteLine(" ▄██████ ██████▄  ██████▄  ██████▄   ▄██████  ▄██████      ██████▄  ██████▄  ██████▄       ██████▄ \r\n▒▒▒  ▀▀▀ ▄▄▄  ▒▒▒ ▄▄▄  ▒▒▀ ▄▄▄  ▒▒▒ ▒▒▒  ▀▀▀ ▒▒▒  ▀▀▀      ▄▄▄  ▒▒▒ ▄▄▄  ▒▒▒ ▄▄▄  ▒▒▒          ▒▒▒▒\r\n███ ████ ████████ ██████▄  ████████ ███ ████ █████▀        ████████ ██████▀  ██████▀       ▄██████▀\r\n▒▒▒  ▒▒▒ ▒▒▒  ▒▒▒ ▒▒▒  ▒▒▒ ▒▒▒  ▒▒▒ ▒▒▒  ▒▒▒ ▒▒▒  ▄▄▄      ▒▒▒  ▒▒▒ ▒▒▒      ▒▒▒           ▒▒▒     \r\n ▀██████ ███  ███ ███  ███ ███  ███  ▀██████  ▀██████      ███  ███ ███      ███           ████████");
     Console.WriteLine();
-    Console.WriteLine("Welcome to the Garage App!");
+    Console.WriteLine("Welcome to the Garage App 2!");
     Console.WriteLine();
     Console.WriteLine();
 }

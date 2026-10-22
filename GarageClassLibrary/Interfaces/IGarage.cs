@@ -16,15 +16,17 @@ namespace GarageClassLibrary.Interfaces
 
         int CountVehicleType(VehicleType vehicleType);
 
-        Vehicle[] FindVehiclesByNumberOfSeats(int numberOfSeats);
+        IList<Vehicle> FindVehiclesByNumberOfSeats(int numberOfSeats);
 
-        Vehicle[] FindVehiclesByVehicleType(VehicleType vehicleType);
+        IList<Vehicle> FindVehiclesByVehicleType(VehicleType vehicleType);
 
-        Vehicle[] FindVehiclesByVehicleTypeAndFuelType(VehicleType vehicleType, FuelType fuelType);
+        IList<Vehicle> FindVehiclesByVehicleTypeAndFuelType(VehicleType vehicleType, FuelType fuelType);
 
         Vehicle FindVehicleByRegistrationNumber(string registrationNumber);
 
-        string GetStatusInfoString();
+        string GetStatusString();
+
+        IList<Vehicle> RemoveAll();
 
         Vehicle RemoveVehicleByRegistrationNumber(string registrationNumber);
 

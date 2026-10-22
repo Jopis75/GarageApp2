@@ -6,9 +6,9 @@ namespace GarageClassLibrary
 {
     public class Garage(int numberOfParkingSpaces) : IGarage
     {
-        private int numberOfVehicles = 0;
+        //private int numberOfVehicles = 0;
 
-        private readonly Vehicle[] vehicles = new Vehicle[numberOfParkingSpaces];
+        private readonly List<Vehicle> vehicles = new(numberOfParkingSpaces);
 
         public bool IsEmpty => NumberOfVehicles == 0;
 
@@ -16,7 +16,7 @@ namespace GarageClassLibrary
 
         public int NumberOfParkingSpaces => numberOfParkingSpaces;
 
-        public int NumberOfVehicles => numberOfVehicles;
+        public int NumberOfVehicles => vehicles.Count;
 
         public void AddVehicle(Vehicle vehicle)
         {
@@ -25,9 +25,7 @@ namespace GarageClassLibrary
                 throw new IndexOutOfRangeException("The garage is full.");
             }
 
-            vehicles[numberOfVehicles] = vehicle;
-
-            numberOfVehicles++;
+            vehicles.Add(vehicle);
         }
 
         public int CountVehicleType(VehicleType vehicleType)
@@ -36,9 +34,9 @@ namespace GarageClassLibrary
 
             var count = 0;
 
-            for (var i = 0; i < numberOfVehicles; i++)
+            foreach (var vehicle in vehicles)
             {
-                if (vehicles[i].GetType().Name == vehicleTypeName)
+                if (vehicle.GetType().Name.Equals(vehicleTypeName))
                 {
                     count++;
                 }
@@ -47,96 +45,81 @@ namespace GarageClassLibrary
             return count;
         }
 
-        private int FindVehicleIndexByRegistrationNumber(string registrationNumber)
+        //private int FindVehicleIndexByRegistrationNumber(string registrationNumber)
+        //{
+        //    var foundVehicle = vehicles.Find(v => v.RegistrationNumber.Equals(registrationNumber, StringComparison.CurrentCultureIgnoreCase));
+            
+        //    if (foundVehicle == null)
+        //    {
+        //        throw new VehicleNotFoundException(registrationNumber);
+        //    }
+
+        //    return foundVehicle;
+        //}
+
+        public IList<Vehicle> FindVehiclesByNumberOfSeats(int numberOfSeats)
         {
-            var index = Array.FindIndex(vehicles, 0,
-                v => v != null
-                && v.RegistrationNumber.Equals(registrationNumber, StringComparison.CurrentCultureIgnoreCase));
-
-            if (index == -1)
-            {
-                throw new VehicleNotFoundException(registrationNumber);
-            }
-
-            return index;
-        }
-
-        public Vehicle[] FindVehiclesByNumberOfSeats(int numberOfSeats)
-        {
-            var foundVehicles = Array.FindAll(vehicles,
-                v => v != null
-                && v.NumberOfSeats == numberOfSeats);
+            var foundVehicles = vehicles.FindAll(v => v.NumberOfSeats == numberOfSeats);
 
             return foundVehicles;
         }
 
         public Vehicle FindVehicleByRegistrationNumber(string registrationNumber)
         {
-            var index = FindVehicleIndexByRegistrationNumber(registrationNumber);
+            var foundVehicle = vehicles.Find(v => v.RegistrationNumber.Equals(registrationNumber, StringComparison.CurrentCultureIgnoreCase));
 
-            return vehicles[index];
+            if (foundVehicle == null)
+            {
+                throw new VehicleNotFoundException(registrationNumber);
+            }
+
+            return foundVehicle;
         }
 
-        public Vehicle[] FindVehiclesByVehicleType(VehicleType vehicleType)
+        public IList<Vehicle> FindVehiclesByVehicleType(VehicleType vehicleType)
         {
-            var foundVehicles = Array.FindAll(vehicles,
-                v => v != null
-                && v.GetType().Name.Equals(vehicleType.ToString()));
+            var foundVehicles = vehicles.FindAll(v => v.GetType().Name.Equals(vehicleType));
 
             return foundVehicles;
         }
 
-        public Vehicle[] FindVehiclesByVehicleTypeAndFuelType(VehicleType vehicleType, FuelType fuelType)
+        public IList<Vehicle> FindVehiclesByVehicleTypeAndFuelType(VehicleType vehicleType, FuelType fuelType)
         {
-            var foundVehicles = Array.FindAll(vehicles, 
-                v => v != null
+            var foundVehicles = vehicles.FindAll(v =>
+                v.GetType().Name.Equals(vehicleType)
                 && v is MotorVehicle
-                && v.GetType().Name.Equals(vehicleType.ToString())
                 && (v as MotorVehicle)!.FuelType == fuelType);
 
             return foundVehicles;
         }
 
-        public string GetStatusInfoString()
+        public string GetStatusString()
         {
-            var infoLine = $"The garage has a total of {numberOfParkingSpaces} parking spaces.";
+            var statusString = $"The garage has a total of {numberOfParkingSpaces} parking spaces.";
 
             if (IsEmpty)
             {
-                infoLine += " The garage is empty.";
+                statusString += " The garage is empty.";
             }
             else if (IsFull)
             {
-                infoLine += " The garage is full.";
+                statusString += " The garage is full.";
             }
             else
             {
-                infoLine += $" There are currently {numberOfVehicles}" + (numberOfVehicles == 1 ? " vehicle" : " vehicles") + " in the garage.";
+                statusString += $" There are currently {vehicles.Count}" + (vehicles.Count == 1 ? " vehicle" : " vehicles") + " in the garage.";
             }
 
-            return infoLine;
+            return statusString;
         }
 
-        private Vehicle RemoveVehicleByIndex(int index)
+        public IList<Vehicle> RemoveAll()
         {
-            var vehicle = vehicles[index];
+            var removedVehilces = vehicles;
 
-            var tempVehicles = new Vehicle[numberOfParkingSpaces];
+            vehicles.RemoveAll(_ => true);
 
-            for (int i = 0, j = 0; i < numberOfVehicles; i++)
-            {
-                if (i != index)
-                {
-                    tempVehicles[j] = vehicles[i];
-                    j++;
-                }
-            }
-
-            Array.Copy(tempVehicles, vehicles, tempVehicles.Length);
-
-            numberOfVehicles--;
-
-            return vehicle;
+            return removedVehilces;
         }
 
         public Vehicle RemoveVehicleByRegistrationNumber(string registrationNumber)
@@ -146,18 +129,18 @@ namespace GarageClassLibrary
                 throw new IndexOutOfRangeException("The garage is empty.");
             }
 
-            var index = FindVehicleIndexByRegistrationNumber(registrationNumber);
+            var removedVehicle = FindVehicleByRegistrationNumber(registrationNumber);
 
-            var vehicle = RemoveVehicleByIndex(index);
+            vehicles.Remove(removedVehicle);
 
-            return vehicle;
+            return removedVehicle;
         }
 
         public void WriteVehicles()
         {
-            for (var i = 0; i < numberOfVehicles; i++)
+            foreach (var vehicle in vehicles)
             {
-                vehicles[i].Write();
+                vehicle.Write();
                 Console.WriteLine();
             }
         }

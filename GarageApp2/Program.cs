@@ -236,7 +236,61 @@ static void HandleAddVehicle(IGarage garage)
 {
     try
     {
-        ReadAddVehicleMenuSelection(garage);
+        var exit = false;
+
+        while (exit == false)
+        {
+            Console.Clear();
+
+            WriteGarageAppWelcomeInfo();
+            ConsoleHelper.WriteInfoLine(garage.StatusString());
+
+            Console.WriteLine();
+
+            Console.WriteLine("What type of vehicle do you want to add?");
+            Console.WriteLine();
+
+            Console.WriteLine("1. A bicycle.");
+            Console.WriteLine("2. A motorcycle.");
+            Console.WriteLine("3. A car.");
+            Console.WriteLine("4. A truck.");
+            Console.WriteLine("5. A bus.");
+            Console.WriteLine("6. A boat.");
+            Console.WriteLine("7. An airplane.");
+            Console.WriteLine("8. Exit to Main menu.");
+            Console.WriteLine();
+            Console.Write("Enter your selection: ");
+
+            var selection = Console.ReadLine();
+
+            switch (selection)
+            {
+                case "1":
+                    AddVehicle(garage, VehicleType.Bicycle);
+                    break;
+                case "2":
+                    AddVehicle(garage, VehicleType.Motorcycle);
+                    break;
+                case "3":
+                    AddVehicle(garage, VehicleType.Car);
+                    break;
+                case "4":
+                    AddVehicle(garage, VehicleType.Truck);
+                    break;
+                case "5":
+                    AddVehicle(garage, VehicleType.Bus);
+                    break;
+                case "6":
+                    AddVehicle(garage, VehicleType.Boat);
+                    break;
+                case "7":
+                    AddVehicle(garage, VehicleType.Airplane);
+                    break;
+                case "8":
+                    exit = true;
+                    break;
+            }
+        }
     }
     catch (Exception ex)
     {
@@ -253,7 +307,49 @@ static void HandleFindVehicles(IGarage garage)
 {
     try
     {
-        ReadFindVehiclesMenuSelection(garage);
+        var exit = false;
+
+        while (exit == false)
+        {
+            Console.Clear();
+
+            WriteGarageAppWelcomeInfo();
+            ConsoleHelper.WriteInfoLine(garage.StatusString());
+
+            Console.WriteLine();
+
+            Console.WriteLine("How do you want to find the vehicle(s)?");
+            Console.WriteLine();
+
+            Console.WriteLine("1. Find by registration number.");
+            Console.WriteLine("2. Find by vehicle type.");
+            Console.WriteLine("3. Find by vehicle type and fuel type.");
+            Console.WriteLine("4. Find by number of seats.");
+            Console.WriteLine("5. Exit to Main menu.");
+            Console.WriteLine();
+            Console.Write("Enter your selection: ");
+
+            var selection = Console.ReadLine();
+
+            switch (selection)
+            {
+                case "1":
+                    FindVehicleByRegistrationNumber(garage);
+                    break;
+                case "2":
+                    FindVehiclesByVehicleType(garage);
+                    break;
+                case "3":
+                    FindVehiclesByVehicleTypeAndFuelType(garage);
+                    break;
+                case "4":
+                    FindVehiclesByNumberOfSeats(garage);
+                    break;
+                case "5":
+                    exit = true;
+                    break;
+            }
+        }
     }
     catch (Exception ex)
     {
@@ -396,7 +492,56 @@ static void HandleMainMenu(IGarage garage)
 {
     try
     {
-        ReadMainMenuSelection(garage);
+        var quit = false;
+
+        while (quit == false)
+        {
+            Console.Clear();
+
+            WriteGarageAppWelcomeInfo();
+            ConsoleHelper.WriteInfoLine(garage.StatusString());
+
+            Console.WriteLine();
+
+            Console.WriteLine("What do you want to do?");
+            Console.WriteLine();
+            Console.WriteLine("1. Add a vehicle to the garage.");
+            Console.WriteLine("2. Remove a vehicle from the garage.");
+            Console.WriteLine("3. Remove all vehicles from the garage.");
+            Console.WriteLine("4. Find vehicle(s) in the garage.");
+            Console.WriteLine("5. List all vehicles in the garage.");
+            Console.WriteLine("6. List all vehicle types in the garage.");
+            Console.WriteLine("7. Quit.");
+            Console.WriteLine();
+            Console.Write("Enter your selection: ");
+
+            var selection = Console.ReadLine();
+
+            switch (selection)
+            {
+                case "1":
+                    HandleAddVehicle(garage);
+                    break;
+                case "2":
+                    HandleRemoveVehicle(garage);
+                    break;
+                case "3":
+                    HandleRemoveAllVehicles(garage);
+                    break;
+                case "4":
+                    HandleFindVehicles(garage);
+                    break;
+                case "5":
+                    HandleListVehicles(garage);
+                    break;
+                case "6":
+                    HandleListVehicleTypes(garage);
+                    break;
+                case "7":
+                    quit = true;
+                    break;
+            }
+        }
     }
     catch (Exception ex)
     {
@@ -834,202 +979,6 @@ static void FindVehiclesByVehicleTypeAndFuelType(IGarage garage)
                 {
                     break;
                 }
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine();
-        ConsoleHelper.WriteErrorLine($"An unexpected error has occurred: {ex.Message}");
-        Console.WriteLine();
-        Console.Write("Press any key to continue...");
-        Console.ReadKey();
-        throw;
-    }
-}
-
-static void ReadAddVehicleMenuSelection(IGarage garage)
-{
-    try
-    {
-        var exit = false;
-
-        while (exit == false)
-        {
-            Console.Clear();
-
-            WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.StatusString());
-
-            Console.WriteLine();
-
-            Console.WriteLine("What type of vehicle do you want to add?");
-            Console.WriteLine();
-
-            Console.WriteLine("1. A bicycle.");
-            Console.WriteLine("2. A motorcycle.");
-            Console.WriteLine("3. A car.");
-            Console.WriteLine("4. A truck.");
-            Console.WriteLine("5. A bus.");
-            Console.WriteLine("6. A boat.");
-            Console.WriteLine("7. An airplane.");
-            Console.WriteLine("8. Exit to Main menu.");
-            Console.WriteLine();
-            Console.Write("Enter your selection: ");
-
-            var selection = Console.ReadLine();
-
-            switch (selection)
-            {
-                case "1":
-                    AddVehicle(garage, VehicleType.Bicycle);
-                    break;
-                case "2":
-                    AddVehicle(garage, VehicleType.Motorcycle);
-                    break;
-                case "3":
-                    AddVehicle(garage, VehicleType.Car);
-                    break;
-                case "4":
-                    AddVehicle(garage, VehicleType.Truck);
-                    break;
-                case "5":
-                    AddVehicle(garage, VehicleType.Bus);
-                    break;
-                case "6":
-                    AddVehicle(garage, VehicleType.Boat);
-                    break;
-                case "7":
-                    AddVehicle(garage, VehicleType.Airplane);
-                    break;
-                case "8":
-                    exit = true;
-                    break;
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine();
-        ConsoleHelper.WriteErrorLine($"An unexpected error has occurred: {ex.Message}");
-        Console.WriteLine();
-        Console.Write("Press any key to continue...");
-        Console.ReadKey();
-        throw;
-    }
-}
-
-static void ReadFindVehiclesMenuSelection(IGarage garage)
-{
-    try
-    {
-        var exit = false;
-
-        while (exit == false)
-        {
-            Console.Clear();
-
-            WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.StatusString());
-
-            Console.WriteLine();
-
-            Console.WriteLine("How do you want to find the vehicle(s)?");
-            Console.WriteLine();
-
-            Console.WriteLine("1. Find by registration number.");
-            Console.WriteLine("2. Find by vehicle type.");
-            Console.WriteLine("3. Find by vehicle type and fuel type.");
-            Console.WriteLine("4. Find by number of seats.");
-            Console.WriteLine("5. Exit to Main menu.");
-            Console.WriteLine();
-            Console.Write("Enter your selection: ");
-
-            var selection = Console.ReadLine();
-
-            switch (selection)
-            {
-                case "1":
-                    FindVehicleByRegistrationNumber(garage);
-                    break;
-                case "2":
-                    FindVehiclesByVehicleType(garage);
-                    break;
-                case "3":
-                    FindVehiclesByVehicleTypeAndFuelType(garage);
-                    break;
-                case "4":
-                    FindVehiclesByNumberOfSeats(garage);
-                    break;
-                case "5":
-                    exit = true;
-                    break;
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine();
-        ConsoleHelper.WriteErrorLine($"An unexpected error has occurred: {ex.Message}");
-        Console.WriteLine();
-        Console.Write("Press any key to continue...");
-        Console.ReadKey();
-        throw;
-    }
-}
-
-static void ReadMainMenuSelection(IGarage garage)
-{
-    try
-    {
-        var quit = false;
-
-        while (quit == false)
-        {
-            Console.Clear();
-
-            WriteGarageAppWelcomeInfo();
-            ConsoleHelper.WriteInfoLine(garage.StatusString());
-
-            Console.WriteLine();
-
-            Console.WriteLine("What do you want to do?");
-            Console.WriteLine();
-            Console.WriteLine("1. Add a vehicle to the garage.");
-            Console.WriteLine("2. Remove a vehicle from the garage.");
-            Console.WriteLine("3. Remove all vehicles from the garage.");
-            Console.WriteLine("4. Find vehicle(s) in the garage.");
-            Console.WriteLine("5. List all vehicles in the garage.");
-            Console.WriteLine("6. List all vehicle types in the garage.");
-            Console.WriteLine("7. Quit.");
-            Console.WriteLine();
-            Console.Write("Enter your selection: ");
-
-            var selection = Console.ReadLine();
-
-            switch (selection)
-            {
-                case "1":
-                    HandleAddVehicle(garage);
-                    break;
-                case "2":
-                    HandleRemoveVehicle(garage);
-                    break;
-                case "3":
-                    HandleRemoveAllVehicles(garage);
-                    break;
-                case "4":
-                    HandleFindVehicles(garage);
-                    break;
-                case "5":
-                    HandleListVehicles(garage);
-                    break;
-                case "6":
-                    HandleListVehicleTypes(garage);
-                    break;
-                case "7":
-                    quit = true;
-                    break;
             }
         }
     }

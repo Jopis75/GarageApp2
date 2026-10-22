@@ -132,6 +132,23 @@ namespace UnitTests
         }
 
         [Fact]
+        public void TestRemoveAll()
+        {
+            // Arrange
+            IGarage garage = new Garage(3);
+            garage.AddVehicle(new Car("ABC 12A", 4.0f, 4, 1, 2.0f, FuelType.Gasoline, 750.0f));
+            garage.AddVehicle(new Truck("RTH 09T", 9.0f, 2, 1, 6.0f, FuelType.Gasoline, 40000.0f));
+            garage.AddVehicle(new Car("DEF 34B", 4.5f, 5, 1, 2.0f, FuelType.Gasoline, 750.0f));
+
+            // Act
+            var removedVehicles = garage.RemoveAll();
+
+            // Assert
+            Assert.Equal(0, garage.NumberOfVehicles);
+            Assert.Equal(3, removedVehicles.Count);
+        }
+
+        [Fact]
         public void TestRemoveVehicleByRegistrationNumber()
         {
             // Arrange

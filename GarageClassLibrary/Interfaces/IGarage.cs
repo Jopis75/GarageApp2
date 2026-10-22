@@ -24,7 +24,7 @@ namespace GarageClassLibrary.Interfaces
 
         Vehicle FindVehicleByRegistrationNumber(string registrationNumber);
 
-        string GetStatusString();
+        string StatusString();
 
         IList<Vehicle> RemoveAll();
 

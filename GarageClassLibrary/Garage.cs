@@ -78,7 +78,7 @@ namespace GarageClassLibrary
 
         public IList<Vehicle> FindVehiclesByVehicleType(VehicleType vehicleType)
         {
-            var foundVehicles = vehicles.FindAll(v => v.GetType().Name.Equals(vehicleType));
+            var foundVehicles = vehicles.FindAll(v => v.GetType().Name.Equals(vehicleType.ToString()));
 
             return foundVehicles;
         }
@@ -86,14 +86,14 @@ namespace GarageClassLibrary
         public IList<Vehicle> FindVehiclesByVehicleTypeAndFuelType(VehicleType vehicleType, FuelType fuelType)
         {
             var foundVehicles = vehicles.FindAll(v =>
-                v.GetType().Name.Equals(vehicleType)
+                v.GetType().Name.Equals(vehicleType.ToString())
                 && v is MotorVehicle
                 && (v as MotorVehicle)!.FuelType == fuelType);
 
             return foundVehicles;
         }
 
-        public string GetStatusString()
+        public string StatusString()
         {
             var statusString = $"The garage has a total of {numberOfParkingSpaces} parking spaces.";
 
@@ -115,7 +115,7 @@ namespace GarageClassLibrary
 
         public IList<Vehicle> RemoveAll()
         {
-            var removedVehilces = vehicles;
+            var removedVehilces = vehicles.ToList();
 
             vehicles.RemoveAll(_ => true);
 

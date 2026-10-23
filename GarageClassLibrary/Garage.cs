@@ -6,8 +6,6 @@ namespace GarageClassLibrary
 {
     public class Garage(int numberOfParkingSpaces) : IGarage
     {
-        //private int numberOfVehicles = 0;
-
         private readonly List<Vehicle> vehicles = new(numberOfParkingSpaces);
 
         public bool IsEmpty => NumberOfVehicles == 0;
@@ -44,18 +42,6 @@ namespace GarageClassLibrary
 
             return count;
         }
-
-        //private int FindVehicleIndexByRegistrationNumber(string registrationNumber)
-        //{
-        //    var foundVehicle = vehicles.Find(v => v.RegistrationNumber.Equals(registrationNumber, StringComparison.CurrentCultureIgnoreCase));
-            
-        //    if (foundVehicle == null)
-        //    {
-        //        throw new VehicleNotFoundException(registrationNumber);
-        //    }
-
-        //    return foundVehicle;
-        //}
 
         public IList<Vehicle> FindVehiclesByNumberOfSeats(int numberOfSeats)
         {

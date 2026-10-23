@@ -507,11 +507,10 @@ static void HandleMainMenu(IGarage garage)
             Console.WriteLine();
             Console.WriteLine("1. Add a vehicle to the garage.");
             Console.WriteLine("2. Remove a vehicle from the garage.");
-            Console.WriteLine("3. Remove all vehicles from the garage.");
-            Console.WriteLine("4. Find vehicle(s) in the garage.");
-            Console.WriteLine("5. List all vehicles in the garage.");
-            Console.WriteLine("6. List all vehicle types in the garage.");
-            Console.WriteLine("7. Quit.");
+            Console.WriteLine("3. Find vehicle(s) in the garage.");
+            Console.WriteLine("4. List all vehicles in the garage.");
+            Console.WriteLine("5. List all vehicle types in the garage.");
+            Console.WriteLine("6. Quit.");
             Console.WriteLine();
             Console.Write("Enter your selection: ");
 
@@ -526,63 +525,18 @@ static void HandleMainMenu(IGarage garage)
                     HandleRemoveVehicle(garage);
                     break;
                 case "3":
-                    HandleRemoveAllVehicles(garage);
-                    break;
-                case "4":
                     HandleFindVehicles(garage);
                     break;
-                case "5":
+                case "4":
                     HandleListVehicles(garage);
                     break;
-                case "6":
+                case "5":
                     HandleListVehicleTypes(garage);
                     break;
-                case "7":
+                case "6":
                     quit = true;
                     break;
             }
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine();
-        ConsoleHelper.WriteErrorLine($"An unexpected error has occurred: {ex.Message}");
-        Console.WriteLine();
-        Console.Write("Press any key to continue...");
-        Console.ReadKey();
-        throw;
-    }
-}
-
-static void HandleRemoveAllVehicles(IGarage garage)
-{
-    try
-    {
-        Console.Clear();
-
-        WriteGarageAppWelcomeInfo();
-        ConsoleHelper.WriteInfoLine(garage.StatusString());
-
-        Console.WriteLine();
-
-        Console.WriteLine("Remove all vehicles from garage");
-        Console.WriteLine("-------------------------------");
-        Console.WriteLine();
-
-        Console.WriteLine();
-
-        var answer = ConsoleHelper.ReadYesNo("Do you want to remove all vehicles ('y', 'n')? ");
-
-        if (answer == true)
-        {
-            garage.RemoveAll();
-
-            Console.WriteLine();
-            ConsoleHelper.WriteSuccessLine("All vehicles was removed successfully.");
-
-            Console.WriteLine();
-            Console.Write("Press any key to continue...");
-            Console.ReadKey();
         }
     }
     catch (Exception ex)

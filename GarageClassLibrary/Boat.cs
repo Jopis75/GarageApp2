@@ -14,7 +14,7 @@ namespace GarageClassLibrary
             {
                 if (value <= 0.0f)
                 {
-                    throw new ArgumentException("Draft must be a positive value.");
+                    throw new ArgumentException("Draft must be greater than zero.");
                 }
 
                 draft = value;

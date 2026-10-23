@@ -14,7 +14,7 @@ namespace GarageClassLibrary
             {
                 if (value <= 0.0f)
                 {
-                    throw new ArgumentException("CylinderVolume must be a positive value.");
+                    throw new ArgumentException("CylinderVolume must be greater than zero..");
                 }
 
                 cylinderVolume = value;
@@ -43,7 +43,7 @@ namespace GarageClassLibrary
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException("NumberOfEngines must be a positive value.");
+                    throw new ArgumentException("NumberOfEngines must be greater than zero.");
                 }
 
                 numberOfEngines = value;

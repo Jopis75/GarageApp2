@@ -14,7 +14,7 @@ namespace GarageClassLibrary
             {
                 if (value <= 0.0f)
                 {
-                    throw new ArgumentException("MaxThrust must be a positive value.");
+                    throw new ArgumentException("MaxThrust must be greater than zero.");
                 }
 
                 maxThrust = value;

@@ -12,7 +12,7 @@
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException("NumberOfGears must be a positive value.");
+                    throw new ArgumentException("NumberOfGears must be greater than zero.");
                 }
 
                 numberOfGears = value;

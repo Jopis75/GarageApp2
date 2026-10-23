@@ -14,7 +14,7 @@ namespace GarageClassLibrary
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException("NumberOfPassengerSeats must be a positive value.");
+                    throw new ArgumentException("NumberOfPassengerSeats must be greater than zero.");
                 }
 
                 numberOfPassengerSeats = value;

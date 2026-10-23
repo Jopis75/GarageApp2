@@ -14,7 +14,7 @@ namespace GarageClassLibrary
             {
                 if (value <= 0.0f)
                 {
-                    throw new ArgumentException("MaxTrailerWeight must be a positive value.");
+                    throw new ArgumentException("MaxTrailerWeight must be greater than zero.");
                 }
 
                 maxTrailerWeight = value;

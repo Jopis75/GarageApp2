@@ -14,7 +14,7 @@ namespace GarageClassLibrary
             {
                 if (value <= 0.0f)
                 {
-                    throw new ArgumentException("Length must be a positive value.");
+                    throw new ArgumentException("Length must be greater than zero.");
                 }
 
                 length = value;
@@ -31,7 +31,7 @@ namespace GarageClassLibrary
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException("NumberOfSeats must be a positive value.");
+                    throw new ArgumentException("NumberOfSeats must be greater than zero.");
                 }
 
                 numberOfSeats = value;

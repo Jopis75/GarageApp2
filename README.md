@@ -98,4 +98,8 @@ alternativ.
 Lycka till!
 
 
-Test
+Jag vill ha feedback på:
+
+* OOP och klassdesign
+
+* Felhantering och robusthet

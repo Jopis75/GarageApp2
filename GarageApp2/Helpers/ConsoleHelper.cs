@@ -34,6 +34,38 @@ namespace GarageApp2.Helpers
             return value;
         }
 
+        public static string ReadFilePath(string prompt)
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.Write(prompt);
+                    var path = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(path))
+                    {
+                        throw new ArgumentNullException(path);
+                    }
+
+                    if (Path.Exists(path) == false)
+                    {
+                        throw new FileNotFoundException($"Could not find the file '{path}'.");
+                    }
+
+                    return path;
+                }
+                catch (ArgumentNullException ex)
+                {
+                    WriteErrorLine(ex.Message);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    WriteErrorLine(ex.Message);
+                }
+            }
+        }
+
         public static int ReadInt(string prompt, Func<float, bool> func)
         {
             var valueInput = string.Empty;

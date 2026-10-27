@@ -3,6 +3,7 @@ using GarageClassLibrary;
 using GarageClassLibrary.Enums;
 using GarageClassLibrary.Exceptions;
 using GarageClassLibrary.Interfaces;
+using GarageClassLibrary.IO;
 
 try
 {
@@ -488,6 +489,62 @@ static void HandleListVehicleTypes(IGarage garage)
     }
 }
 
+static void HandleLoadFromDisk(IGarage garage)
+{
+    try
+    {
+        Console.Clear();
+
+        WriteGarageAppWelcomeInfo();
+        ConsoleHelper.WriteInfoLine(garage.StatusString());
+
+        Console.WriteLine();
+
+        Console.WriteLine("Load vehicles from disk");
+        Console.WriteLine("-----------------------");
+        Console.WriteLine();
+
+        var path = ConsoleHelper.ReadFilePath("Enter file path: ");
+
+        var vehicles = new GarageStreamReader().Read(path!);
+
+        Console.WriteLine();
+        Console.WriteLine("The following vehicles was read from disk.");
+        Console.WriteLine();
+
+        foreach (var vehicle in vehicles)
+        {
+            vehicle.Write();
+            Console.WriteLine();
+        }
+
+        Console.WriteLine();
+
+        var addToGarage = ConsoleHelper.ReadYesNo("Do you want to add the vehicles to the garage ('y', 'n')? ");
+
+        if (addToGarage)
+        {
+            foreach (var vehicle in vehicles)
+            {
+                // ToDo: Validate reg num here.
+                garage.AddVehicle(vehicle);
+            }
+        }
+
+        Console.WriteLine();
+        Console.Write("Press any key to continue...");
+        Console.ReadKey();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine();
+        ConsoleHelper.WriteErrorLine($"An unexpected error has occurred: {ex.Message}");
+        Console.WriteLine();
+        Console.Write("Press any key to continue...");
+        Console.ReadKey();
+        throw;
+    }
+}
 static void HandleMainMenu(IGarage garage)
 {
     try
@@ -510,7 +567,9 @@ static void HandleMainMenu(IGarage garage)
             Console.WriteLine("3. Find vehicle(s) in the garage.");
             Console.WriteLine("4. List all vehicles in the garage.");
             Console.WriteLine("5. List all vehicle types in the garage.");
-            Console.WriteLine("6. Quit.");
+            Console.WriteLine("6. Load vehicles from disk.");
+            Console.WriteLine("7. Save vehicles to disk.");
+            Console.WriteLine("8. Quit.");
             Console.WriteLine();
             Console.Write("Enter your selection: ");
 
@@ -534,6 +593,11 @@ static void HandleMainMenu(IGarage garage)
                     HandleListVehicleTypes(garage);
                     break;
                 case "6":
+                    HandleLoadFromDisk(garage);
+                    break;
+                case "7":
+                    break;
+                case "8":
                     quit = true;
                     break;
             }

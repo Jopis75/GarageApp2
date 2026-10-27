@@ -96,3 +96,10 @@ alternativ.
 • Läsa in garagets storlek via konfiguration.
 • Valfri ytterligare funktionalitet som ni tycker borde finnas.
 Lycka till!
+
+
+Jag vill ha feedback på:
+
+* OOP och klassdesign
+
+* Felhantering och robusthet

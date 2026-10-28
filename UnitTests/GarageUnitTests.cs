@@ -163,5 +163,21 @@ namespace UnitTests
             Assert.Equal(1, garage.NumberOfVehicles);
             Assert.Equal("ABC 12A", vehicle.RegistrationNumber);
         }
+
+        [Fact]
+        public void TestVehicleExists()
+        {
+            // Arrange
+            IGarage garage = new Garage(3);
+            garage.AddVehicle(new Car("ABC 12A", 4.0f, 4, 1, 2.0f, FuelType.Gasoline, 750.0f));
+            garage.AddVehicle(new Truck("RTH 09T", 9.0f, 2, 1, 6.0f, FuelType.Gasoline, 40000.0f));
+            garage.AddVehicle(new Car("DEF 34B", 4.5f, 5, 1, 2.0f, FuelType.Gasoline, 750.0f));
+
+            // Act
+            var exists = garage.VehicleExists("RTH 09T");
+
+            // Assert
+            Assert.True(exists);
+        }
     }
 }

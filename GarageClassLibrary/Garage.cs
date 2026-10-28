@@ -122,6 +122,13 @@ namespace GarageClassLibrary
             return removedVehicle;
         }
 
+        public bool VehicleExists(string registrationNumber)
+        {
+            var foundVehicle = vehicles.Find(v => v.RegistrationNumber.Equals(registrationNumber, StringComparison.CurrentCultureIgnoreCase));
+
+            return foundVehicle != null;
+        }
+
         public void WriteVehicles()
         {
             foreach (var vehicle in vehicles)

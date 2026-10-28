@@ -6,6 +6,10 @@ namespace GarageClassLibrary.IO
 {
     public class GarageStreamReader : IGarageStreamReader
     {
+        private record VehicleData(string RegistrationNumber, float Length, int NumberOfSeats);
+
+        private record MotorVehicleData(int NumberOfEngines, float CylinderVolume, FuelType FuelType);
+
         public IList<Vehicle> Read(string path)
         {
             using var streamReader = new StreamReader(path);
@@ -33,6 +37,32 @@ namespace GarageClassLibrary.IO
             return vehicles;
         }
 
+        private Airplane ParseAirplane(string line)
+        {
+            string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries);
+
+            if (fields.Length != 8)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (fields[0].Equals("Airplane") == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            var vehicleData = ParseVehicleData(fields);
+
+            var motorVehicleData = ParseMotorVehicleData(fields);
+
+            if (float.TryParse(fields[7], out var maxTrust) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            return new Airplane(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, maxTrust);
+        }
+
         private Bicycle ParseBicycle(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries);
@@ -47,36 +77,66 @@ namespace GarageClassLibrary.IO
                 throw new ArgumentException("");
             }
 
-            if (RegistrationNumberValidator.Validate(fields[1]) == false)
-            {
-                throw new ArgumentException("");
-            }
-
-            var registrationNumber = fields[1];
-
-            if (float.TryParse(fields[2], out var length) == false || !(length > 0.0f))
-            {
-                throw new ArgumentException("");
-            }
-
-            if (int.TryParse(fields[3], out var numberOfSeats) == false || !(numberOfSeats > 0))
-            {
-                throw new ArgumentException("");
-            }
+            var vehicleData = ParseVehicleData(fields);
 
             if (int.TryParse(fields[4], out var numberOfGears) == false || !(numberOfGears > 0))
             {
                 throw new ArgumentException("");
             }
 
-            var bicycle = new Bicycle(registrationNumber, length, numberOfSeats, numberOfGears);
-
-            return bicycle;
+            return new Bicycle(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, numberOfGears);
         }
 
-        private Bicycle ParseMotorcycle(string line)
+        private Boat ParseBoat(string line)
         {
-            throw new NotImplementedException();
+            string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries);
+
+            if (fields.Length != 8)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (fields[0].Equals("Boat") == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            var vehicleData = ParseVehicleData(fields);
+
+            var motorVehicleData = ParseMotorVehicleData(fields);
+
+            if (float.TryParse(fields[7], out var draft) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            return new Boat(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, draft);
+        }
+
+        private Bus ParseBus(string line)
+        {
+            string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries);
+
+            if (fields.Length != 8)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (fields[0].Equals("Bus") == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            var vehicleData = ParseVehicleData(fields);
+
+            var motorVehicleData = ParseMotorVehicleData(fields);
+
+            if (int.TryParse(fields[7], out var numberOfPassengerSeats) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            return new Bus(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, numberOfPassengerSeats);
         }
 
         private Car ParseCar(string line)
@@ -93,66 +153,16 @@ namespace GarageClassLibrary.IO
                 throw new ArgumentException("");
             }
 
-            if (RegistrationNumberValidator.Validate(fields[1]) == false)
-            {
-                throw new ArgumentException("");
-            }
+            var vehicleData = ParseVehicleData(fields);
 
-            var registrationNumber = fields[1];
-
-            if (float.TryParse(fields[2], out var length) == false)
-            {
-                throw new ArgumentException("");
-            }
-
-            if (int.TryParse(fields[3], out var numberOfSeats) == false)
-            {
-                throw new ArgumentException("");
-            }
-
-            if (int.TryParse(fields[4], out var numberOfEngines) == false)
-            {
-                throw new ArgumentException("");
-            }
-
-            if (float.TryParse(fields[5], out var cylinderVolume) == false)
-            {
-                throw new ArgumentException("");
-            }
-
-            if (Enum.TryParse<FuelType>(fields[6], out var fuelType) == false)
-            {
-                throw new ArgumentException("");
-            }
+            var motorVehicleData = ParseMotorVehicleData(fields);
 
             if (float.TryParse(fields[7], out var maxTrailerWeight) == false)
             {
                 throw new ArgumentException("");
             }
 
-            var car = new Car(registrationNumber, length, numberOfSeats, numberOfEngines, cylinderVolume, fuelType, maxTrailerWeight);
-
-            return car;
-        }
-
-        private Bicycle ParseTruck(string line)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Bicycle ParseBus(string line)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Bicycle ParseBoat(string line)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Bicycle ParseAirplane(string line)
-        {
-            throw new NotImplementedException();
+            return new Car(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, maxTrailerWeight);
         }
 
         private Vehicle ParseLine(string line)
@@ -175,6 +185,103 @@ namespace GarageClassLibrary.IO
                 VehicleType.Airplane => ParseAirplane(line),
                 _ => throw new ArgumentException("")
             };
+        }
+
+        private Motorcycle ParseMotorcycle(string line)
+        {
+            string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries);
+
+            if (fields.Length != 8)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (fields[0].Equals("Motorcycle") == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            var vehicleData = ParseVehicleData(fields);
+
+            var motorVehicleData = ParseMotorVehicleData(fields);
+
+            if (float.TryParse(fields[7], out var seatHeight) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            return new Motorcycle(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, seatHeight);
+        }
+
+        private Truck ParseTruck(string line)
+        {
+            string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries);
+
+            if (fields.Length != 8)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (fields[0].Equals("Truck") == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            var vehicleData = ParseVehicleData(fields);
+
+            var motorVehicleData = ParseMotorVehicleData(fields);
+
+            if (float.TryParse(fields[7], out var maxLoad) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            return new Truck(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, maxLoad);
+        }
+
+
+
+
+        private VehicleData ParseVehicleData(string[] fields)
+        {
+            if (RegistrationNumberValidator.Validate(fields[1]) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            var registrationNumber = fields[1];
+
+            if (float.TryParse(fields[2], out var length) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (int.TryParse(fields[3], out var numberOfSeats) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            return new VehicleData(registrationNumber, length, numberOfSeats);
+        }
+
+        private MotorVehicleData ParseMotorVehicleData(string[] fields)
+        {
+            if (int.TryParse(fields[4], out var numberOfEngines) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (float.TryParse(fields[5], out var cylinderVolume) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (Enum.TryParse<FuelType>(fields[6], out var fuelType) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            return new MotorVehicleData(numberOfEngines, cylinderVolume, fuelType);
         }
     }
 }

@@ -68,15 +68,13 @@ static void AddVehicle(IGarage garage, VehicleType vehicleType)
                 {
                     registrationNumber = ConsoleHelper.ReadRegistrationNumber("Enter the registration number: ");
 
-                    try
+                    if (garage.VehicleExists(registrationNumber))
                     {
-                        var vehilce = garage.FindVehicleByRegistrationNumber(registrationNumber);
-
                         Console.WriteLine();
                         ConsoleHelper.WriteErrorLine($"The registration number '{registrationNumber}' already exists.");
                         Console.WriteLine();
                     }
-                    catch (VehicleNotFoundException)
+                    else
                     {
                         break;
                     }
@@ -142,7 +140,7 @@ static void AddVehicle(IGarage garage, VehicleType vehicleType)
                     garage.AddVehicle(vehicle!);
 
                     Console.WriteLine();
-                    ConsoleHelper.WriteSuccessLine("The vehicle was added successfully.");
+                    ConsoleHelper.WriteSuccessLine($"The vehicle with registrationnumber {registrationNumber} was added successfully.");
                     Console.WriteLine();
                 }
                 catch (IndexOutOfRangeException ex)
@@ -489,62 +487,6 @@ static void HandleListVehicleTypes(IGarage garage)
     }
 }
 
-static void HandleLoadFromDisk(IGarage garage)
-{
-    try
-    {
-        Console.Clear();
-
-        WriteGarageAppWelcomeInfo();
-        ConsoleHelper.WriteInfoLine(garage.StatusString());
-
-        Console.WriteLine();
-
-        Console.WriteLine("Load vehicles from disk");
-        Console.WriteLine("-----------------------");
-        Console.WriteLine();
-
-        var path = ConsoleHelper.ReadFilePath("Enter file path: ");
-
-        var vehicles = new GarageStreamReader().Read(path!);
-
-        Console.WriteLine();
-        Console.WriteLine("The following vehicles was read from disk.");
-        Console.WriteLine();
-
-        foreach (var vehicle in vehicles)
-        {
-            vehicle.Write();
-            Console.WriteLine();
-        }
-
-        Console.WriteLine();
-
-        var addToGarage = ConsoleHelper.ReadYesNo("Do you want to add the vehicles to the garage ('y', 'n')? ");
-
-        if (addToGarage)
-        {
-            foreach (var vehicle in vehicles)
-            {
-                // ToDo: Validate reg num here.
-                garage.AddVehicle(vehicle);
-            }
-        }
-
-        Console.WriteLine();
-        Console.Write("Press any key to continue...");
-        Console.ReadKey();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine();
-        ConsoleHelper.WriteErrorLine($"An unexpected error has occurred: {ex.Message}");
-        Console.WriteLine();
-        Console.Write("Press any key to continue...");
-        Console.ReadKey();
-        throw;
-    }
-}
 static void HandleMainMenu(IGarage garage)
 {
     try
@@ -567,8 +509,8 @@ static void HandleMainMenu(IGarage garage)
             Console.WriteLine("3. Find vehicle(s) in the garage.");
             Console.WriteLine("4. List all vehicles in the garage.");
             Console.WriteLine("5. List all vehicle types in the garage.");
-            Console.WriteLine("6. Load vehicles from disk.");
-            Console.WriteLine("7. Save vehicles to disk.");
+            Console.WriteLine("6. Read vehicles from file.");
+            Console.WriteLine("7. Write vehicles to file.");
             Console.WriteLine("8. Quit.");
             Console.WriteLine();
             Console.Write("Enter your selection: ");
@@ -593,15 +535,107 @@ static void HandleMainMenu(IGarage garage)
                     HandleListVehicleTypes(garage);
                     break;
                 case "6":
-                    HandleLoadFromDisk(garage);
+                    HandleReadFromFile(garage);
                     break;
                 case "7":
+                    // HandleWriteToFile(garage);
                     break;
                 case "8":
                     quit = true;
                     break;
             }
         }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine();
+        ConsoleHelper.WriteErrorLine($"An unexpected error has occurred: {ex.Message}");
+        Console.WriteLine();
+        Console.Write("Press any key to continue...");
+        Console.ReadKey();
+        throw;
+    }
+}
+
+static void HandleReadFromFile(IGarage garage)
+{
+    try
+    {
+        Console.Clear();
+
+        WriteGarageAppWelcomeInfo();
+        ConsoleHelper.WriteInfoLine(garage.StatusString());
+
+        Console.WriteLine();
+
+        Console.WriteLine("Read vehicles from file");
+        Console.WriteLine("-----------------------");
+        Console.WriteLine();
+
+        var path = ConsoleHelper.ReadFilePath("Enter file path: ");
+
+        var vehicles = new GarageStreamReader().Read(path!);
+
+        if (vehicles.Count == 0)
+        {
+            Console.WriteLine();
+            ConsoleHelper.WriteInfoLine($"Could not find any vehicles in the file {path}.");
+            Console.WriteLine();
+        }
+        else
+        {
+            Console.WriteLine();
+            ConsoleHelper.WriteInfoLine($"Found {vehicles.Count}" + (vehicles.Count > 1 ? " vehicles" : " vehicle") + $" in the file {path}.");
+            Console.WriteLine();
+
+            foreach (var vehicle in vehicles)
+            {
+                vehicle.Write();
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+
+            var addToGarage = ConsoleHelper.ReadYesNo("Do you want to add the vehicles to the garage ('y', 'n')? ");
+
+            if (addToGarage)
+            {
+                var vehiclesAddedCount = 0;
+
+                foreach (var vehicle in vehicles)
+                {
+                    if (garage.VehicleExists(vehicle.RegistrationNumber))
+                    {
+                        Console.WriteLine();
+                        ConsoleHelper.WriteErrorLine($"The registration number '{vehicle.RegistrationNumber}' already exists.");
+
+                        vehiclesAddedCount++;
+                    }
+                    else
+                    {
+                        garage.AddVehicle(vehicle);
+
+                        Console.WriteLine();
+                        ConsoleHelper.WriteSuccessLine($"The vehicle with registrationnumber {vehicle.RegistrationNumber} was added successfully.");
+                    }
+                }
+
+                Console.WriteLine();
+
+                if (vehiclesAddedCount > 0)
+                {
+                    ConsoleHelper.WriteInfoLine($"{vehiclesAddedCount}" + (vehiclesAddedCount > 1 ? " vehicles" : " vehicle") + " was added to the garage.");
+                }
+                else
+                {
+                    ConsoleHelper.WriteInfoLine("No vehicles was added to the garage.");
+                }
+            }
+        }
+
+        Console.WriteLine();
+        Console.Write("Press any key to continue...");
+        Console.ReadKey();
     }
     catch (Exception ex)
     {

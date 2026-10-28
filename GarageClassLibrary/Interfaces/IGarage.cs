@@ -30,6 +30,8 @@ namespace GarageClassLibrary.Interfaces
 
         Vehicle RemoveVehicleByRegistrationNumber(string registrationNumber);
 
+        bool VehicleExists(string registrationNumber);
+
         void WriteVehicles();
 
         void WriteVehicleTypeCount(VehicleType vehicleType);

@@ -74,7 +74,7 @@ namespace GarageApp2.Helpers
                         return null;
                     }
 
-                    var fileName = Path.GetFileName(path);
+                    //var fileName = Path.GetFileName(path);
                     var directoryName = Path.GetDirectoryName(path);
 
                     if (Directory.Exists(directoryName) == false)
@@ -82,9 +82,9 @@ namespace GarageApp2.Helpers
                         throw new DirectoryNotFoundException($"Could not find the directory '{directoryName}'.");
                     }
 
-                    if (File.Exists(fileName) == false)
+                    if (Path.Exists(path) == false)
                     {
-                        throw new FileNotFoundException($"Could not find the file '{fileName}'.");
+                        throw new FileNotFoundException($"Could not find the file '{path}'.");
                     }
 
                     return path;

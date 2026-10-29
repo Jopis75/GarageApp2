@@ -1,4 +1,5 @@
 ﻿using GarageClassLibrary.Enums;
+using System.Text;
 
 namespace GarageClassLibrary
 {
@@ -19,6 +20,11 @@ namespace GarageClassLibrary
 
                 draft = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder().Append("Boat").Append($";{base.ToString()}").Append($";{draft}").ToString();
         }
 
         public override void Write()

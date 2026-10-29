@@ -1,4 +1,5 @@
 ﻿using GarageClassLibrary.Enums;
+using System.Text;
 
 namespace GarageClassLibrary
 {
@@ -19,6 +20,11 @@ namespace GarageClassLibrary
 
                 maxTrailerWeight = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder().Append("Car").Append($";{base.ToString()}").Append($";{maxTrailerWeight}").ToString();
         }
 
         public override void Write()

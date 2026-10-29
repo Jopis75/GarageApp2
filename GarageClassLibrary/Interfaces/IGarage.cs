@@ -12,6 +12,8 @@ namespace GarageClassLibrary.Interfaces
 
         int NumberOfVehicles { get; }
 
+        IReadOnlyList<Vehicle> Vehicles { get; }
+
         void AddVehicle(Vehicle vehicle);
 
         int CountVehicleType(VehicleType vehicleType);

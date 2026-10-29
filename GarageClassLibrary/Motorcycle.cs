@@ -1,4 +1,5 @@
 ﻿using GarageClassLibrary.Enums;
+using System.Text;
 
 namespace GarageClassLibrary
 {
@@ -19,6 +20,11 @@ namespace GarageClassLibrary
 
                 seatHeight = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder().Append("Motorcycle").Append($";{base.ToString()}").Append($";{seatHeight}").ToString();
         }
 
         public override void Write()

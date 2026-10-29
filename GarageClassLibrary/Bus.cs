@@ -1,4 +1,5 @@
 ﻿using GarageClassLibrary.Enums;
+using System.Text;
 
 namespace GarageClassLibrary
 {
@@ -19,6 +20,11 @@ namespace GarageClassLibrary
 
                 numberOfPassengerSeats = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder().Append("Bus").Append($";{base.ToString()}").Append($";{numberOfPassengerSeats}").ToString();
         }
 
         public override void Write()

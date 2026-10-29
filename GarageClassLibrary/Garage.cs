@@ -16,6 +16,8 @@ namespace GarageClassLibrary
 
         public int NumberOfVehicles => vehicles.Count;
 
+        public IReadOnlyList<Vehicle> Vehicles => vehicles;
+
         public void AddVehicle(Vehicle vehicle)
         {
             if (IsFull)

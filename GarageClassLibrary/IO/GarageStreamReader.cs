@@ -213,6 +213,26 @@ namespace GarageClassLibrary.IO
             return new Motorcycle(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, seatHeight);
         }
 
+        private MotorVehicleData ParseMotorVehicleData(string[] fields)
+        {
+            if (int.TryParse(fields[4], out var numberOfEngines) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (float.TryParse(fields[5], out var cylinderVolume) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            if (Enum.TryParse<FuelType>(fields[6], out var fuelType) == false)
+            {
+                throw new ArgumentException("");
+            }
+
+            return new MotorVehicleData(numberOfEngines, cylinderVolume, fuelType);
+        }
+
         private Truck ParseTruck(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries);
@@ -239,9 +259,6 @@ namespace GarageClassLibrary.IO
             return new Truck(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, maxLoad);
         }
 
-
-
-
         private VehicleData ParseVehicleData(string[] fields)
         {
             if (RegistrationNumberValidator.Validate(fields[1]) == false)
@@ -262,26 +279,6 @@ namespace GarageClassLibrary.IO
             }
 
             return new VehicleData(registrationNumber, length, numberOfSeats);
-        }
-
-        private MotorVehicleData ParseMotorVehicleData(string[] fields)
-        {
-            if (int.TryParse(fields[4], out var numberOfEngines) == false)
-            {
-                throw new ArgumentException("");
-            }
-
-            if (float.TryParse(fields[5], out var cylinderVolume) == false)
-            {
-                throw new ArgumentException("");
-            }
-
-            if (Enum.TryParse<FuelType>(fields[6], out var fuelType) == false)
-            {
-                throw new ArgumentException("");
-            }
-
-            return new MotorVehicleData(numberOfEngines, cylinderVolume, fuelType);
         }
     }
 }

@@ -4,6 +4,59 @@ namespace GarageApp2.Helpers
 {
     public static class ConsoleHelper
     {
+        public static (string?, StreamWriter?) ReadCreateTextFile(string prompt)
+        {
+            StreamWriter? streamWriter = null;
+
+            while (true)
+            {
+                try
+                {
+                    Console.Write(prompt);
+                    var path = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(path))
+                    {
+                        return (null, null);
+                    }
+
+                    if (Path.Exists(path))
+                    {
+                        Console.WriteLine($"The file {path} already exists.");
+
+                        var replaceContents = ReadYesNo("Do you want to replace its contents ('y', 'n')? ");
+
+                        if (replaceContents)
+                        {
+                            streamWriter = File.CreateText(path);
+                        }
+                    }
+                    else
+                    {
+                        streamWriter = File.CreateText(path);
+                    }
+
+                    return (path, streamWriter);
+                }
+                //catch (ArgumentNullException ex)
+                //{
+                //    WriteErrorLine(ex.Message);
+                //}
+                //catch (ArgumentException ex)
+                //{
+                //    WriteErrorLine(ex.Message);
+                //}
+                //catch (FileAlreadyExistsException ex)
+                //{
+                //    WriteErrorLine(ex.Message);
+                //}
+                catch (Exception ex)
+                {
+                    WriteErrorLine(ex.Message);
+                }
+            }
+        }
+
         public static TEnum ReadEnum<TEnum>(string prompt) where TEnum : struct
         {
             var valueInput = string.Empty;
@@ -34,7 +87,7 @@ namespace GarageApp2.Helpers
             return value;
         }
 
-        public static string ReadFilePath(string prompt)
+        public static string? ReadFilePath(string prompt)
         {
             while (true)
             {
@@ -45,7 +98,7 @@ namespace GarageApp2.Helpers
 
                     if (string.IsNullOrEmpty(path))
                     {
-                        throw new ArgumentNullException(path);
+                        return null;
                     }
 
                     if (Path.Exists(path) == false)

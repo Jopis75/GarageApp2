@@ -1,4 +1,5 @@
 ﻿using GarageClassLibrary.Interfaces;
+using System.Text;
 
 namespace GarageClassLibrary
 {
@@ -44,6 +45,11 @@ namespace GarageClassLibrary
             {
                 return registrationNumber;
             }
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder().Append(registrationNumber).Append($";{length}").Append($";{numberOfSeats}").ToString();
         }
 
         public virtual void Write()

@@ -1,4 +1,6 @@
-﻿namespace GarageClassLibrary
+﻿using System.Text;
+
+namespace GarageClassLibrary
 {
     public class Bicycle(string registrationNumber, float length, int numberOfSeats, int numberOfGears) : Vehicle(registrationNumber, length, numberOfSeats)
     {
@@ -17,6 +19,11 @@
 
                 numberOfGears = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder().Append("Bicycle").Append($";{base.ToString()}").Append($";{numberOfGears}").ToString();
         }
 
         public override void Write()

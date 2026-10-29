@@ -1,4 +1,5 @@
 ﻿using GarageClassLibrary.Enums;
+using System.Text;
 
 namespace GarageClassLibrary
 {
@@ -19,6 +20,11 @@ namespace GarageClassLibrary
 
                 maxThrust = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder().Append("Airplane").Append($";{base.ToString()}").Append($";{maxThrust}").ToString();
         }
 
         public override void Write()

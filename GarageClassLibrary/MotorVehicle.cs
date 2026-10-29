@@ -1,4 +1,5 @@
 ﻿using GarageClassLibrary.Enums;
+using System.Text;
 
 namespace GarageClassLibrary
 {
@@ -48,6 +49,11 @@ namespace GarageClassLibrary
 
                 numberOfEngines = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder().Append(base.ToString()).Append($";{numberOfEngines}").Append($";{cylinderVolume}").Append($";{fuelType}").ToString();
         }
 
         public override void Write()

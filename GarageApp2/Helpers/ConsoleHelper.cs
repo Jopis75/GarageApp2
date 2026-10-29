@@ -38,21 +38,9 @@ namespace GarageApp2.Helpers
 
                     return (path, streamWriter);
                 }
-                //catch (ArgumentNullException ex)
-                //{
-                //    WriteErrorLine(ex.Message);
-                //}
-                //catch (ArgumentException ex)
-                //{
-                //    WriteErrorLine(ex.Message);
-                //}
-                //catch (FileAlreadyExistsException ex)
-                //{
-                //    WriteErrorLine(ex.Message);
-                //}
-                catch (Exception ex)
+                catch (IOException ex)
                 {
-                    WriteErrorLine(ex.Message);
+                    WriteErrorLine($"An I/O error has occurred: {ex.Message}");
                 }
             }
         }
@@ -107,10 +95,6 @@ namespace GarageApp2.Helpers
                     }
 
                     return path;
-                }
-                catch (ArgumentNullException ex)
-                {
-                    WriteErrorLine(ex.Message);
                 }
                 catch (FileNotFoundException ex)
                 {

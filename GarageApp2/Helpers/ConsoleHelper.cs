@@ -60,21 +60,6 @@ namespace GarageApp2.Helpers
             return value;
         }
 
-        public static float ReadFloat(string prompt, Func<float, bool> func)
-        {
-            var valueInput = string.Empty;
-            var value = 0.0f;
-
-            do
-            {
-                Console.Write(prompt);
-                valueInput = Console.ReadLine();
-            }
-            while (float.TryParse(valueInput, out value) == false || func(value));
-
-            return value;
-        }
-
         public static string? ReadFilePath(string prompt)
         {
             while (true)
@@ -113,6 +98,21 @@ namespace GarageApp2.Helpers
                     WriteErrorLine(ex.Message);
                 }
             }
+        }
+
+        public static float ReadFloat(string prompt, Func<float, bool> func)
+        {
+            var valueInput = string.Empty;
+            var value = 0.0f;
+
+            do
+            {
+                Console.Write(prompt);
+                valueInput = Console.ReadLine();
+            }
+            while (float.TryParse(valueInput, out value) == false || func(value));
+
+            return value;
         }
 
         public static int ReadInt(string prompt, Func<float, bool> func)

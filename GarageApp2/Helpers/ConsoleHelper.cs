@@ -40,7 +40,7 @@ namespace GarageApp2.Helpers
                 }
                 catch (IOException ex)
                 {
-                    WriteErrorLine($"An I/O error has occurred: {ex.Message}");
+                    WriteErrorLine(ex.Message);
                 }
             }
         }
@@ -89,12 +89,24 @@ namespace GarageApp2.Helpers
                         return null;
                     }
 
-                    if (Path.Exists(path) == false)
+                    var fileName = Path.GetFileName(path);
+                    var directoryName = Path.GetDirectoryName(path);
+
+                    if (Directory.Exists(directoryName) == false)
                     {
-                        throw new FileNotFoundException($"Could not find the file '{path}'.");
+                        throw new DirectoryNotFoundException($"Could not find the directory '{directoryName}'.");
+                    }
+
+                    if (File.Exists(fileName) == false)
+                    {
+                        throw new FileNotFoundException($"Could not find the file '{fileName}'.");
                     }
 
                     return path;
+                }
+                catch (DirectoryNotFoundException ex)
+                {
+                    WriteErrorLine(ex.Message);
                 }
                 catch (FileNotFoundException ex)
                 {

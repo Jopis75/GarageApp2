@@ -1,11 +1,10 @@
 ﻿using GarageClassLibrary.Interfaces;
-using GarageClassLibrary.IO.Interfaces;
 
 namespace GarageClassLibrary.IO
 {
-    public class GarageStreamWriter : IGarageStreamWriter
+    public static class GarageStreamWriter
     {
-        public int Write(StreamWriter streamWriter, IGarage garage)
+        public static int Write(StreamWriter streamWriter, IGarage garage)
         {
             var count = 0;
 
@@ -22,7 +21,7 @@ namespace GarageClassLibrary.IO
             return count;
         }
 
-        public int Write(string path, IGarage garage)
+        public static int Write(string path, IGarage garage)
         {
             using var streamWriter = new StreamWriter(path);
 

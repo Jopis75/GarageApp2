@@ -584,7 +584,7 @@ static void HandleReadFromFile(IGarage garage)
 
         if (string.IsNullOrEmpty(path) == false)
         {
-            var vehicles = new GarageStreamReader().Read(path!);
+            var vehicles = GarageStreamReader.Read(path!);
 
             if (vehicles.Count == 0)
             {
@@ -769,7 +769,7 @@ static void HandleWriteToFile(IGarage garage)
             {
                 Console.WriteLine();
 
-                var vehiclesCount = new GarageStreamWriter().Write(streamWriter, garage);
+                var vehiclesCount = GarageStreamWriter.Write(streamWriter, garage);
 
                 if (vehiclesCount > 0)
                 {

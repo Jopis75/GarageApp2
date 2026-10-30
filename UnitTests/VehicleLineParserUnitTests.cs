@@ -6,10 +6,9 @@ namespace UnitTests
     public class VehicleLineParserUnitTests
     {
         [Fact]
-        public void TestParse()
+        public void TestParseMultipleLines()
         {
             // Arrange
-            var vehicleLineParser = new VehicleLineParser();
             var lines = new string[]
             {
                 "Bicycle;AFB 10H;1,1;1;5",
@@ -19,7 +18,7 @@ namespace UnitTests
             };
 
             // Act
-            var vehicles = vehicleLineParser.Parse(lines);
+            var vehicles = VehicleLineParser.Parse(lines);
 
             // Assert
             Assert.Equal(4, vehicles.Count);
@@ -38,18 +37,29 @@ namespace UnitTests
         }
 
         [Fact]
-        public void TestParseLine()
+        public void TestParseSingleLine()
         {
             // Arrange
-            var vehicleLineParser = new VehicleLineParser();
             string line = "Car;RTH 23T;4,2;4;1;6,0;Gasoline;750,0";
 
             // Act
-            var vehicle = vehicleLineParser.ParseLine(line);
+            var vehicle = VehicleLineParser.Parse(line);
 
             // Assert
             Assert.Equal(VehicleType.Car.ToString(), vehicle.GetType().Name);
             Assert.Equal("RTH 23T", vehicle.RegistrationNumber);
+        }
+
+        [Theory]
+        [InlineData("Car;RTH 23T;4,2;4;1;6,0;Gasoline", "")]
+        public void TestThrowArgumentException(string line, string expectedExceptionMessage)
+        {
+            // Arrange
+            var lines = new string[] { line };
+
+            // Act and Assert
+            var exception = Assert.Throws<ArgumentException>(() => VehicleLineParser.Parse(line));
+            Assert.Equal(expectedExceptionMessage, exception.Message);
         }
     }
 }

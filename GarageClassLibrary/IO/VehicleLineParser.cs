@@ -1,23 +1,22 @@
 ﻿using GarageClassLibrary.Enums;
 using GarageClassLibrary.Extensions;
-using GarageClassLibrary.IO.Interfaces;
 using GarageClassLibrary.Validators;
 
 namespace GarageClassLibrary.IO
 {
-    public class VehicleLineParser : IVehicleLineParser
+    public static class VehicleLineParser
     {
         private record VehicleData(string RegistrationNumber, float Length, int NumberOfSeats);
 
         private record MotorVehicleData(int NumberOfEngines, float CylinderVolume, FuelType FuelType);
 
-        public IList<Vehicle> Parse(string[] lines)
+        public static IList<Vehicle> Parse(string[] lines)
         {
             List<Vehicle> vehicles = [];
 
             foreach (var line in lines)
             {
-                var vehicle = ParseLine(line);
+                var vehicle = Parse(line);
 
                 vehicles.Add(vehicle);
             }
@@ -25,7 +24,7 @@ namespace GarageClassLibrary.IO
             return vehicles;
         }
 
-        private Airplane ParseAirplane(string line)
+        private static Airplane ParseAirplane(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries).TrimFields();
 
@@ -51,7 +50,7 @@ namespace GarageClassLibrary.IO
             return new Airplane(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, maxTrust);
         }
 
-        private Bicycle ParseBicycle(string line)
+        private static Bicycle ParseBicycle(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries).TrimFields();
 
@@ -75,7 +74,7 @@ namespace GarageClassLibrary.IO
             return new Bicycle(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, numberOfGears);
         }
 
-        private Boat ParseBoat(string line)
+        private static Boat ParseBoat(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries).TrimFields();
 
@@ -101,7 +100,7 @@ namespace GarageClassLibrary.IO
             return new Boat(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, draft);
         }
 
-        private Bus ParseBus(string line)
+        private static Bus ParseBus(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries).TrimFields();
 
@@ -127,7 +126,7 @@ namespace GarageClassLibrary.IO
             return new Bus(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, numberOfPassengerSeats);
         }
 
-        private Car ParseCar(string line)
+        private static Car ParseCar(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries).TrimFields();
 
@@ -153,7 +152,7 @@ namespace GarageClassLibrary.IO
             return new Car(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, maxTrailerWeight);
         }
 
-        public Vehicle ParseLine(string line)
+        public static Vehicle Parse(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries).TrimFields();
 
@@ -175,7 +174,7 @@ namespace GarageClassLibrary.IO
             };
         }
 
-        private Motorcycle ParseMotorcycle(string line)
+        private static Motorcycle ParseMotorcycle(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries).TrimFields();
 
@@ -201,7 +200,7 @@ namespace GarageClassLibrary.IO
             return new Motorcycle(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, seatHeight);
         }
 
-        private MotorVehicleData ParseMotorVehicleData(string[] fields)
+        private static MotorVehicleData ParseMotorVehicleData(string[] fields)
         {
             if (int.TryParse(fields[4], out var numberOfEngines) == false)
             {
@@ -221,7 +220,7 @@ namespace GarageClassLibrary.IO
             return new MotorVehicleData(numberOfEngines, cylinderVolume, fuelType);
         }
 
-        private Truck ParseTruck(string line)
+        private static Truck ParseTruck(string line)
         {
             string[] fields = line.Split(";", StringSplitOptions.RemoveEmptyEntries).TrimFields();
 
@@ -247,7 +246,7 @@ namespace GarageClassLibrary.IO
             return new Truck(vehicleData.RegistrationNumber, vehicleData.Length, vehicleData.NumberOfSeats, motorVehicleData.NumberOfEngines, motorVehicleData.CylinderVolume, motorVehicleData.FuelType, maxLoad);
         }
 
-        private VehicleData ParseVehicleData(string[] fields)
+        private static VehicleData ParseVehicleData(string[] fields)
         {
             if (RegistrationNumberValidator.Validate(fields[1]) == false)
             {
